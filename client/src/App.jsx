@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import useTasks from './hooks/useTasks';
 import { useAuth } from './context/AuthContext';
 import Header from './components/Header';
@@ -41,6 +41,21 @@ export default function App() {
   const [showForm, setShowForm] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
   const [deletingTask, setDeletingTask] = useState(null);
+
+  // Theme state
+  const [theme, setTheme] = useState(() => {
+    const saved = localStorage.getItem('theme');
+    return saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
 
   // Handle create
   const handleCreate = async (taskData) => {
@@ -104,7 +119,7 @@ export default function App() {
       <Toast toasts={toasts} onRemove={removeToast} />
 
       {/* Header with Stats */}
-      <Header stats={stats} user={user} onLogout={logout} />
+      <Header stats={stats} user={user} onLogout={logout} theme={theme} toggleTheme={toggleTheme} />
 
       {/* Main Content */}
       <main className="container">

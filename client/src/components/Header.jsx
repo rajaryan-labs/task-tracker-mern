@@ -1,6 +1,6 @@
-import { HiOutlineBolt, HiOutlineClock, HiOutlineCheckCircle, HiOutlineExclamationTriangle, HiOutlineArrowRightOnRectangle } from 'react-icons/hi2';
+import { HiOutlineBolt, HiOutlineClock, HiOutlineCheckCircle, HiOutlineExclamationTriangle, HiOutlineArrowRightOnRectangle, HiOutlineSun, HiOutlineMoon } from 'react-icons/hi2';
 
-export default function Header({ stats, user, onLogout }) {
+export default function Header({ stats, user, onLogout, theme, toggleTheme }) {
   const statItems = [
     { label: 'Total', value: stats.total, icon: <HiOutlineBolt size={16} />, color: 'var(--accent-indigo)' },
     { label: 'Pending', value: stats.pending, icon: <HiOutlineClock size={16} />, color: 'var(--warning)' },
@@ -35,6 +35,28 @@ export default function Header({ stats, user, onLogout }) {
               <div style={{ fontSize: '0.9rem', color: 'var(--text-primary)' }}>
                 Hi, <span style={{ fontWeight: 600 }}>{user.name.split(' ')[0]}</span> 👋
               </div>
+              <button
+                onClick={toggleTheme}
+                title="Toggle Theme"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '32px',
+                  height: '32px',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  color: 'var(--text-primary)',
+                  border: '1px solid var(--border-glass)',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                }}
+                onMouseOver={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+                onMouseOut={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'}
+              >
+                {theme === 'dark' ? <HiOutlineSun size={18} /> : <HiOutlineMoon size={18} />}
+              </button>
+
               <button 
                 onClick={onLogout}
                 style={{
