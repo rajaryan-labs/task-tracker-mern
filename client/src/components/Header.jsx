@@ -31,7 +31,7 @@ export default function Header({ stats, user, onLogout, theme, toggleTheme }) {
           </div>
           
           {user && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', background: 'rgba(255, 255, 255, 0.03)', padding: '8px 16px', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', background: 'var(--bg-glass)', padding: '8px 16px', borderRadius: '12px', border: '1px solid var(--border-glass)' }}>
               <div style={{ fontSize: '0.9rem', color: 'var(--text-primary)' }}>
                 Hi, <span style={{ fontWeight: 600 }}>{user.name.split(' ')[0]}</span> 👋
               </div>
@@ -44,15 +44,15 @@ export default function Header({ stats, user, onLogout, theme, toggleTheme }) {
                   justifyContent: 'center',
                   width: '32px',
                   height: '32px',
-                  background: 'rgba(255, 255, 255, 0.05)',
+                  background: 'var(--bg-glass)',
                   color: 'var(--text-primary)',
                   border: '1px solid var(--border-glass)',
                   borderRadius: '8px',
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
                 }}
-                onMouseOver={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
-                onMouseOut={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'}
+                onMouseOver={(e) => e.currentTarget.style.background = 'var(--border-hover)'}
+                onMouseOut={(e) => e.currentTarget.style.background = 'var(--bg-glass)'}
               >
                 {theme === 'dark' ? <HiOutlineSun size={18} /> : <HiOutlineMoon size={18} />}
               </button>
