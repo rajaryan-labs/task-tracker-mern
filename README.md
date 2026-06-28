@@ -3,9 +3,6 @@
 A full-stack, production-ready Task Management web application built with the MERN stack (MongoDB, Express, React, Node.js). 
 
 This project was built to demonstrate full-stack development, RESTful APIs, JWT Authentication, responsive modern UI design, and database management.
-
-![Task Tracker App UI](https://via.placeholder.com/1000x500.png?text=Task+Tracker+MERN+App)
-
 ## ✨ Features
 - **Secure Authentication:** User registration and login using JWT (JSON Web Tokens) and bcrypt.
 - **CRUD Operations:** Create, Read, Update, and Delete tasks.
