@@ -1,147 +1,65 @@
-# 📋 Task Tracker — MERN Stack Application
+# 🚀 MERN Task Tracker
 
-A full-stack Task Management application built with the **MERN Stack** (MongoDB, Express.js, React.js, Node.js).
+A full-stack, production-ready Task Management web application built with the MERN stack (MongoDB, Express, React, Node.js). 
 
-![MERN Stack](https://img.shields.io/badge/MERN-Stack-green)
-![License](https://img.shields.io/badge/License-MIT-blue)
+This project was built to demonstrate full-stack development, RESTful APIs, JWT Authentication, responsive modern UI design, and database management.
+
+![Task Tracker App UI](https://via.placeholder.com/1000x500.png?text=Task+Tracker+MERN+App)
 
 ## ✨ Features
-
-### Mandatory Features
-- ✅ **CRUD Operations** — Create, Read, Update, Delete tasks
-- ✅ **Form Validation** — Client-side + server-side validation
-- ✅ **REST API** — RESTful endpoints with Express.js
-- ✅ **MongoDB Integration** — Mongoose ODM with Atlas
-- ✅ **Responsive UI** — Mobile-first design with TailwindCSS
-- ✅ **Dynamic Updates** — SPA with no page refreshes
-
-### Bonus Features
-- 🔍 **Search** — Real-time search with debouncing
-- 🎯 **Filtering** — Filter by status & priority
-- ↕️ **Sorting** — Sort by date, priority, title, status
-- 🔔 **Toast Notifications** — Success/error/info notifications
-- 🏷️ **Priority Levels** — Low, Medium, High with color coding
-- 📅 **Due Dates** — Date picker with overdue highlighting
-- 🧩 **Reusable Components** — Modal, Toast, ConfirmDialog
-- 🔐 **Environment Variables** — `.env` for both client & server
-
-## 🛠️ Tech Stack
-
-| Layer | Technology |
-|-------|-----------|
-| Frontend | React.js + Vite |
-| Styling | TailwindCSS v4 |
-| Backend | Node.js + Express.js |
-| Database | MongoDB Atlas + Mongoose |
-| HTTP Client | Axios |
-| Icons | React Icons (Heroicons) |
+- **Secure Authentication:** User registration and login using JWT (JSON Web Tokens) and bcrypt.
+- **CRUD Operations:** Create, Read, Update, and Delete tasks.
+- **Data Isolation:** Each user has an isolated account and can only see/manage their own tasks.
+- **Modern UI:** A sleek dark-mode interface with glassmorphism design, built using pure CSS.
+- **Responsive:** Fully responsive layout that looks great on mobile, tablet, and desktop.
+- **Search & Filters:** Real-time search, sorting by priority/due date, and filtering capabilities.
+- **Dynamic Updates:** Instant UI updates using React state without page reloads.
 
 ## 📁 Project Structure
 
-```
-Task Shedule/
-├── server/                     # Backend API
-│   ├── config/db.js            # MongoDB connection
-│   ├── models/Task.js          # Task schema
-│   ├── routes/taskRoutes.js    # CRUD routes
-│   ├── middleware/errorHandler.js
-│   ├── server.js               # Entry point
-│   └── .env                    # Environment vars
-│
-├── client/                     # React Frontend
-│   ├── src/
-│   │   ├── components/         # UI Components
-│   │   ├── hooks/useTasks.js   # Custom hook
-│   │   ├── utils/api.js        # Axios config
-│   │   ├── App.jsx             # Main app
-│   │   └── index.css           # Design system
-│   └── .env                    # Frontend env
-│
-└── README.md
-```
+This repository is a monorepo containing both the frontend and backend:
 
-## 🚀 Getting Started
+* [`/client`](./client) - React.js frontend built with Vite.
+* [`/server`](./server) - Node.js + Express backend API.
+
+## 🚀 Live Demo
+- **Frontend (Vercel):** [https://task-tracker-mern-qncb.vercel.app](https://task-tracker-mern-qncb.vercel.app)
+- **Backend API (Vercel):** [https://task-tracker-mern-theta.vercel.app](https://task-tracker-mern-theta.vercel.app)
+
+## 💻 Getting Started Locally
 
 ### Prerequisites
-- Node.js v18+
-- MongoDB Atlas account (or local MongoDB)
+Make sure you have [Node.js](https://nodejs.org/) installed on your machine. You will also need a MongoDB database (e.g., MongoDB Atlas).
 
-### 1. Clone & Install
-
+### 1. Clone the repository
 ```bash
-# Install backend dependencies
+git clone https://github.com/rajaryan-labs/task-tracker-mern.git
+cd task-tracker-mern
+```
+
+### 2. Setup the Backend
+Navigate to the `server` directory and follow the [Server README](./server/README.md) instructions.
+```bash
 cd server
 npm install
+# Configure .env file
+npm run dev
+```
 
-# Install frontend dependencies
+### 3. Setup the Frontend
+Navigate to the `client` directory and follow the [Client README](./client/README.md) instructions.
+```bash
 cd ../client
 npm install
-```
-
-### 2. Environment Setup
-
-**Server** (`server/.env`):
-```
-MONGO_URI=your_mongodb_connection_string
-PORT=5000
-NODE_ENV=development
-```
-
-**Client** (`client/.env`):
-```
-VITE_API_URL=http://localhost:5000/api
-```
-
-### 3. Run the Application
-
-```bash
-# Terminal 1 — Start Backend
-cd server
-npm run dev
-
-# Terminal 2 — Start Frontend
-cd client
+# Configure .env file
 npm run dev
 ```
 
-- Backend: http://localhost:5000
-- Frontend: http://localhost:5173
+## 🛠️ Technology Stack
+* **Frontend:** React (Vite), React Router, Context API, Axios, Vanilla CSS
+* **Backend:** Node.js, Express.js, Mongoose, JWT, bcryptjs
+* **Database:** MongoDB
+* **Deployment:** Vercel
 
-## 📡 API Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/api/tasks` | Get all tasks |
-| `GET` | `/api/tasks/:id` | Get single task |
-| `POST` | `/api/tasks` | Create task |
-| `PUT` | `/api/tasks/:id` | Update task |
-| `DELETE` | `/api/tasks/:id` | Delete task |
-
-### Query Parameters
-- `search` — Search by title/description
-- `status` — Filter: `pending`, `in-progress`, `completed`
-- `priority` — Filter: `low`, `medium`, `high`
-- `sortBy` — Sort: `createdAt`, `dueDate`, `priority`, `title`, `status`
-- `order` — Sort order: `asc` or `desc`
-
-## 📝 Task Schema
-
-```json
-{
-  "title": "String (required, max 100)",
-  "description": "String (optional, max 500)",
-  "status": "pending | in-progress | completed",
-  "priority": "low | medium | high",
-  "dueDate": "Date (optional)",
-  "createdAt": "Date (auto)",
-  "updatedAt": "Date (auto)"
-}
-```
-
-## 👤 Author
-
-**Raj Aryan**
-
----
-
-Built with ❤️ using the MERN Stack
+## 📝 License
+This project is open-source and available under the MIT License.

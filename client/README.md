@@ -1,16 +1,44 @@
-# React + Vite
+# Task Tracker - Frontend (React / Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+This is the frontend portion of the MERN Task Tracker application. It provides a modern, fast, and responsive user interface for managing tasks, built with React and Vite.
 
-Currently, two official plugins are available:
+## ✨ Features
+* **Dark Mode & Glassmorphism UI:** A sleek, premium design built entirely with custom CSS.
+* **Authentication Flow:** User registration and login screens.
+* **Dynamic State Management:** Utilizes React Context API to manage authentication and application state across components.
+* **Instant Feedback:** Toast notifications and smooth micro-animations.
+* **Search & Filter:** Client-side sorting and filtering for quick task retrieval.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 Quick Start
 
-## React Compiler
+### 1. Install Dependencies
+Make sure you are in the `/client` directory, then run:
+```bash
+npm install
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 2. Environment Variables
+Create a `.env` file in the root of the `/client` directory:
+```env
+VITE_API_URL=http://localhost:5000/api
+```
+*(If deploying to production, replace this URL with your live backend API URL).*
 
-## Expanding the Oxlint configuration
+### 3. Run the Development Server
+```bash
+npm run dev
+```
+The frontend will start at `http://localhost:5174` (or similar).
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## 🛠️ Build for Production
+To generate a production-ready build:
+```bash
+npm run build
+```
+The optimized files will be placed in the `/dist` directory.
+
+## 📦 Key Dependencies
+* `react` & `react-dom` - Core UI library.
+* `react-router-dom` - Client-side routing.
+* `axios` - Handling HTTP requests to the backend API.
+* `react-icons` - Scalable SVG icons.
