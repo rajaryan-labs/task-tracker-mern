@@ -21,10 +21,12 @@ export default function App() {
     toasts,
     removeToast,
     addToast,
+    isGuest,
     createTask,
     updateTask,
     deleteTask,
     toggleStatus,
+    fetchTasks,
     search,
     setSearch,
     statusFilter,
@@ -41,6 +43,7 @@ export default function App() {
   const [showForm, setShowForm] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
   const [deletingTask, setDeletingTask] = useState(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   // Theme state
   const [theme, setTheme] = useState(() => {
@@ -56,6 +59,14 @@ export default function App() {
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
   };
+
+  // Reload tasks when user logs in (to migrate from guest to auth)
+  useEffect(() => {
+    if (user) {
+      setShowAuthModal(false);
+      fetchTasks();
+    }
+  }, [user]);
 
   // Handle create
   const handleCreate = async (taskData) => {
@@ -104,22 +115,55 @@ export default function App() {
     );
   }
 
-  if (!user) {
-    return (
-      <>
-        <Toast toasts={toasts} onRemove={removeToast} />
-        <AuthPage addToast={addToast} />
-      </>
-    );
-  }
-
   return (
     <div style={{ minHeight: '100vh', paddingBottom: '60px' }}>
       {/* Toast Notifications */}
       <Toast toasts={toasts} onRemove={removeToast} />
 
       {/* Header with Stats */}
-      <Header stats={stats} user={user} onLogout={logout} theme={theme} toggleTheme={toggleTheme} />
+      <Header
+        stats={stats}
+        user={user}
+        onLogout={logout}
+        theme={theme}
+        toggleTheme={toggleTheme}
+        onSignIn={() => setShowAuthModal(true)}
+      />
+
+      {/* Guest Banner */}
+      {isGuest && (
+        <div className="container animate-slide-down">
+          <div
+            className="glass-card"
+            style={{
+              marginBottom: '20px',
+              padding: '14px 20px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '12px',
+              flexWrap: 'wrap',
+              borderColor: 'rgba(129, 140, 248, 0.25)',
+            }}
+          >
+            <div>
+              <span style={{ fontSize: '0.9rem', color: 'var(--text-primary)', fontWeight: 500 }}>
+                👋 You're using <strong>Guest Mode</strong> — tasks are saved in your browser only.
+              </span>
+              <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', display: 'block', marginTop: '2px' }}>
+                Sign in to save your tasks to the cloud and access them anywhere.
+              </span>
+            </div>
+            <button
+              className="btn btn-primary"
+              onClick={() => setShowAuthModal(true)}
+              style={{ padding: '8px 20px', fontSize: '0.8rem', flexShrink: 0 }}
+            >
+              Sign In / Sign Up
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Main Content */}
       <main className="container">
@@ -196,6 +240,15 @@ export default function App() {
         title="Delete Task"
         message={`Are you sure you want to delete "${deletingTask?.title}"? This action cannot be undone.`}
       />
+
+      {/* Auth Modal */}
+      <Modal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        title=""
+      >
+        <AuthPage addToast={addToast} onClose={() => setShowAuthModal(false)} />
+      </Modal>
 
       {/* Footer */}
       <footer

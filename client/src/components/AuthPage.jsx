@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { HiOutlineUser, HiOutlineEnvelope, HiOutlineLockClosed } from 'react-icons/hi2';
 
-export default function AuthPage({ addToast }) {
+export default function AuthPage({ addToast, onClose }) {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
   const [errors, setErrors] = useState({});
@@ -40,6 +40,7 @@ export default function AuthPage({ addToast }) {
         await register(formData.name, formData.email, formData.password);
         addToast('Registered successfully! 🎉');
       }
+      // Modal will close automatically via the useEffect in App.jsx
     } catch (err) {
       addToast(err.message || 'Authentication failed', 'error');
     } finally {
@@ -48,100 +49,112 @@ export default function AuthPage({ addToast }) {
   };
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: '20px'
-    }}>
-      <div className="glass-card animate-fade-in-scale" style={{ width: '100%', maxWidth: '440px', padding: '40px' }}>
-        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-          <h1 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '8px' }}>
-            <span className="gradient-text">Task Tracker</span>
-          </h1>
-          <p style={{ color: 'var(--text-secondary)' }}>
-            {isLogin ? 'Welcome back! Please login to your account.' : 'Create an account to manage your tasks.'}
-          </p>
+    <div style={{ padding: '12px 4px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+        <h2 style={{ fontSize: '1.6rem', fontWeight: 800, marginBottom: '8px' }}>
+          <span className="gradient-text">{isLogin ? 'Welcome Back' : 'Create Account'}</span>
+        </h2>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+          {isLogin
+            ? 'Sign in to access your saved tasks from any device.'
+            : 'Create an account to save your tasks to the cloud.'}
+        </p>
+      </div>
+
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        {!isLogin && (
+          <div>
+            <label className="form-label">Full Name</label>
+            <div style={{ position: 'relative' }}>
+              <HiOutlineUser size={18} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+              <input
+                type="text"
+                name="name"
+                className="input-field"
+                placeholder="John Doe"
+                value={formData.name}
+                onChange={handleChange}
+                style={{ paddingLeft: '44px', borderColor: errors.name ? 'var(--danger)' : '' }}
+              />
+            </div>
+            {errors.name && <p className="error-text">{errors.name}</p>}
+          </div>
+        )}
+
+        <div>
+          <label className="form-label">Email Address</label>
+          <div style={{ position: 'relative' }}>
+            <HiOutlineEnvelope size={18} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+            <input
+              type="email"
+              name="email"
+              className="input-field"
+              placeholder="you@example.com"
+              value={formData.email}
+              onChange={handleChange}
+              style={{ paddingLeft: '44px', borderColor: errors.email ? 'var(--danger)' : '' }}
+            />
+          </div>
+          {errors.email && <p className="error-text">{errors.email}</p>}
         </div>
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          {!isLogin && (
-            <div>
-              <label className="form-label">Full Name</label>
-              <div style={{ position: 'relative' }}>
-                <HiOutlineUser size={18} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                <input
-                  type="text"
-                  name="name"
-                  className="input-field"
-                  placeholder="John Doe"
-                  value={formData.name}
-                  onChange={handleChange}
-                  style={{ paddingLeft: '44px', borderColor: errors.name ? 'var(--danger)' : '' }}
-                />
-              </div>
-              {errors.name && <p className="error-text">{errors.name}</p>}
-            </div>
-          )}
-
-          <div>
-            <label className="form-label">Email Address</label>
-            <div style={{ position: 'relative' }}>
-              <HiOutlineEnvelope size={18} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-              <input
-                type="email"
-                name="email"
-                className="input-field"
-                placeholder="you@example.com"
-                value={formData.email}
-                onChange={handleChange}
-                style={{ paddingLeft: '44px', borderColor: errors.email ? 'var(--danger)' : '' }}
-              />
-            </div>
-            {errors.email && <p className="error-text">{errors.email}</p>}
+        <div>
+          <label className="form-label">Password</label>
+          <div style={{ position: 'relative' }}>
+            <HiOutlineLockClosed size={18} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+            <input
+              type="password"
+              name="password"
+              className="input-field"
+              placeholder="••••••••"
+              value={formData.password}
+              onChange={handleChange}
+              style={{ paddingLeft: '44px', borderColor: errors.password ? 'var(--danger)' : '' }}
+            />
           </div>
+          {errors.password && <p className="error-text">{errors.password}</p>}
+        </div>
 
-          <div>
-            <label className="form-label">Password</label>
-            <div style={{ position: 'relative' }}>
-              <HiOutlineLockClosed size={18} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-              <input
-                type="password"
-                name="password"
-                className="input-field"
-                placeholder="••••••••"
-                value={formData.password}
-                onChange={handleChange}
-                style={{ paddingLeft: '44px', borderColor: errors.password ? 'var(--danger)' : '' }}
-              />
-            </div>
-            {errors.password && <p className="error-text">{errors.password}</p>}
-          </div>
+        <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '8px', padding: '12px' }} disabled={submitting}>
+          {submitting ? 'Please wait...' : (isLogin ? 'Sign In' : 'Create Account')}
+        </button>
+      </form>
 
-          <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '8px', padding: '12px' }} disabled={submitting}>
-            {submitting ? 'Please wait...' : (isLogin ? 'Sign In' : 'Create Account')}
-          </button>
-        </form>
+      <div style={{ marginTop: '24px', textAlign: 'center', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+        {isLogin ? "Don't have an account? " : "Already have an account? "}
+        <button 
+          onClick={() => {
+            setIsLogin(!isLogin);
+            setErrors({});
+            setFormData({ name: '', email: '', password: '' });
+          }}
+          style={{ 
+            background: 'none', border: 'none', 
+            color: 'var(--accent-indigo)', 
+            fontWeight: 600, cursor: 'pointer' 
+          }}
+        >
+          {isLogin ? 'Sign Up' : 'Log In'}
+        </button>
+      </div>
 
-        <div style={{ marginTop: '24px', textAlign: 'center', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
-          {isLogin ? "Don't have an account? " : "Already have an account? "}
-          <button 
-            onClick={() => {
-              setIsLogin(!isLogin);
-              setErrors({});
-              setFormData({ name: '', email: '', password: '' });
-            }}
-            style={{ 
-              background: 'none', border: 'none', 
-              color: 'var(--accent-indigo)', 
-              fontWeight: 600, cursor: 'pointer' 
+      {onClose && (
+        <div style={{ marginTop: '16px', textAlign: 'center' }}>
+          <button
+            onClick={onClose}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: 'var(--text-muted)',
+              fontSize: '0.85rem',
+              cursor: 'pointer',
+              textDecoration: 'underline',
             }}
           >
-            {isLogin ? 'Sign Up' : 'Log In'}
+            Continue as Guest
           </button>
         </div>
-      </div>
+      )}
     </div>
   );
 }
